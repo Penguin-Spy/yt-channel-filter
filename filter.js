@@ -1,9 +1,7 @@
-const ALLOWED_PATHS = ["/feed/subscriptions", "/feed/history", "/feed/channels", "/results", "/account", "/account_notifications", "/account_playback", "/account_privacy"]
+const ALLOWED_PATHS = ["/feed/subscriptions", "/feed/history", "/feed/channels", "/results", "/playlist", "/account", "/account_notifications", "/account_playback", "/account_privacy"]
 
 // handles initial load and in-page navigation
 async function handleNavigation(url) {
-  console.log("[yt-channel-filter] filtering", url)
-
   // filter watching videos
   if(url.pathname === "/watch") {
     const video_id = url.searchParams.get("v")
@@ -32,7 +30,7 @@ async function handleNavigation(url) {
       console.info(`[yt-channel-filter] channel id '${channel_id}' of video '${video_id}' is allowed`)
     }
 
-    // filter browsing channels (TODO: handle the @handle form of urls too (allow them for allowed channels, right now they get blocked))
+    // filter browsing channels by id
   } else if(url.pathname.startsWith("/channel")) {
     const channel_id = url.pathname.split("/")[2]
     const settings = await browser.storage.sync.get(["channel_ids"])
@@ -44,11 +42,28 @@ async function handleNavigation(url) {
       console.info(`[yt-channel-filter] channel id '${channel_id}' is allowed`)
     }
 
+    // filter browsing channels by handle
+  } else if(url.pathname.startsWith("/@")) {
+    const channel_handle = url.pathname.split("/")[1]
+    const settings = await browser.storage.sync.get(["channel_handles"])
+
+    if(!settings.channel_handles.includes(channel_handle)) {
+      console.info(`[yt-channel-filter] channel handle '${channel_handle}' is not in allowed list`)
+      document.location = browser.runtime.getURL("blocked.html") + '?c=' + channel_handle
+    } else {
+      console.info(`[yt-channel-filter] channel handle '${channel_handle}' is allowed`)
+    }
+
     // block everything else that's not an allowed path
   } else if(!ALLOWED_PATHS.includes(url.pathname)) {
     console.info(`[yt-channel-filter] path '${url.pathname}' is not allowed`)
-    history.replaceState(null, "", "/feed/subscriptions")
-    document.location = "/feed/subscriptions"
+    // if there's a previous page to go back to, go there
+    if(history.length > 1) {
+      history.go(-1)
+    } else { // else just reset to the subscriptions page
+      history.replaceState(null, "", "/feed/subscriptions")
+      document.location = "/feed/subscriptions"
+    }
   }
 }
 

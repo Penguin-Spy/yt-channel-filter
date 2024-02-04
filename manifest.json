@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Youtube Channel Filter",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Restrict the ability to watch youtube videos based on the channel.",
   "icons": {
     "96": "icons/icon-96.png"
@@ -13,7 +13,8 @@
     {
       "matches": ["*://www.youtube.com/*"],
       "run_at": "document_start",
-      "js": ["filter.js"]
+      "js": ["filter.js"],
+      "css": ["youtube-style.css"]
     }, {
       "matches": ["*://*.youtube.com/*", "*://*.youtubekids.com/*"],
       "run_at": "document_start",
