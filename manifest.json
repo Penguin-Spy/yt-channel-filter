@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "name": "Youtube Channel Filter",
+  "version": "0.1",
+  "description": "Restrict the ability to watch youtube videos based on the channel.",
+  "icons": {
+    "96": "icons/icon-96.png"
+  },
+  "permissions": [ "storage", "https://youtube.googleapis.com/youtube/v3/videos" ],
+  "options_ui": { "page": "options.html" },
+
+  "content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/*"],
+      "run_at": "document_start",
+      "js": ["filter.js"]
+    }, {
+      "matches": ["*://*.youtube.com/*", "*://*.youtubekids.com/*"],
+      "run_at": "document_start",
+      "js": ["redirect.js"]
+    }
+  ],
+
+  "web_accessible_resources": [
+    "blocked.html"
+  ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "yt-channel-filter@penguinspy.dev"
+    }
+  }
+}

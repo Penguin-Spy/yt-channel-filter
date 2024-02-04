@@ -1,0 +1,24 @@
+:root {
+  /* this has to be set to switch between light or dark */
+  color-scheme: light dark;
+}
+
+body {
+  background-color: light-dark(#ffffff, #23222b); /* matches firefox's addon card settings page so the options blend in nicely */
+  color: light-dark(rgb(21, 20, 26), rgb(251,251,254));
+}
+
+body.centered {
+  width: fit-content;
+  margin: auto;
+}
+
+body.options {
+  margin: 16px 8px;
+}
+
+textarea, input {
+  display: block;
+  margin-bottom: 2em;
+  resize: none;
+}
