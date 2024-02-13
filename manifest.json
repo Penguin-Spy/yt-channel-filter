@@ -4,7 +4,7 @@
   "version": "0.2",
   "description": "Restrict the ability to watch youtube videos based on the channel.",
   "icons": {
-    "96": "icons/icon-96.png"
+    "96": "icons/colored-icon.svg"
   },
   "permissions": [ "storage", "https://youtube.googleapis.com/youtube/v3/videos" ],
   "options_ui": { "page": "options.html" },
