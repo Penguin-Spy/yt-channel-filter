@@ -1,3 +1,9 @@
+/* filter.js © Penguin_Spy 2024
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 const ALLOWED_PATHS = ["/feed/subscriptions", "/feed/history", "/feed/channels", "/results", "/playlist", "/account", "/account_notifications", "/account_playback", "/account_privacy"]
 
 // handles initial load and in-page navigation
