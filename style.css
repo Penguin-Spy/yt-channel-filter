@@ -6,15 +6,17 @@
 body {
   background-color: light-dark(#ffffff, #23222b); /* matches firefox's addon card settings page so the options blend in nicely */
   color: light-dark(rgb(21, 20, 26), rgb(251,251,254));
+  margin: 0;
+  height: 100vh;
 }
 
-body.centered {
+main.centered {
   width: fit-content;
   margin: auto;
 }
 
-body.options {
-  margin: 16px 8px;
+main.options {
+  padding: 16px 8px;
 }
 
 textarea, input {

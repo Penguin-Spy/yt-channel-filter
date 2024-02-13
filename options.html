@@ -5,20 +5,33 @@
   <title>settings - yt channel filter</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="options">
-  <form>
-    <label for="api_key">API Key <input id="api_key" type="text" size="40" /></label>
+<body>
+  <main class="options">
+    <div id="passcode_area">
+      <form id="passcode_form">
+        <label for="enter_passcode">Enter passcode to edit settings <input type="password" id="enter_passcode" /></label>
+        <button type="submit">Enter</button> <span id="passcode_notice" hidden>Incorrect passcode</span>
+      </form>
+    </div>
 
-    <label for="channel_ids">Channel IDs</label>
-    <textarea id="channel_ids" rows="2" cols="25" spellcheck="false"></textarea>
+    <div id="options_area" hidden>
+      <form id="options_form">
+        <label for="api_key">API Key <input id="api_key" type="text" size="40" /></label>
 
-    <label for="channel_handles">Channel handles (including '@')</label>
-    <textarea id="channel_handles" rows="2" cols="25" spellcheck="false"></textarea>
+        <label for="channel_ids">Channel IDs</label>
+        <textarea id="channel_ids" rows="2" cols="25" spellcheck="false"></textarea>
 
-    <button type="submit">Save</button> <span id="saved_notice" hidden>Saved!</span>
-  </form>
+        <label for="channel_handles">Channel handles (including '@')</label>
+        <textarea id="channel_handles" rows="2" cols="25" spellcheck="false"></textarea>
 
-  <a href="/options.html" target="_blank">open in new tab</a>
+        <label for="edit_passcode">Edit passcode <input id="edit_passcode" type="text" /></label>
+
+        <button type="submit">Save</button> <span id="saved_notice" hidden>Saved!</span>
+      </form>
+
+    </div>
+    <a href="/options.html" target="_blank">open in new tab</a>
+  </main>
 
   <script src="options.js"></script>
 </body>

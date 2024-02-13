@@ -2,12 +2,15 @@ const settings = browser.storage.sync
 const api_key = document.querySelector("#api_key")
 const channel_ids = document.querySelector("#channel_ids")
 const channel_handles = document.querySelector("#channel_handles")
+const edit_passcode = document.querySelector("#edit_passcode")
 const saved_notice = document.querySelector("#saved_notice")
 
+/* --- OPTIONS AREA --- */
 const DEFUALT_SETTINGS = {
   api_key: "none",
   channel_ids: [],
-  channel_handles: []
+  channel_handles: [],
+  passcode: ""
 }
 
 function restoreOptions() {
@@ -21,6 +24,11 @@ function restoreOptions() {
     channel_handles.value = result.channel_handles.join("\n")
     updateTextareaSize({ target: channel_handles })
 
+    edit_passcode.value = result.passcode
+    if(result.passcode.length === 0) {
+      revealOptions()
+    }
+
   }).catch(e => {
     console.error("getting setting gave error - ", e)
   })
@@ -31,7 +39,8 @@ function saveOptions(e) {
   settings.set({
     api_key: api_key.value || DEFUALT_SETTINGS.api_key,
     channel_ids: channel_ids.value.split("\n"),
-    channel_handles: channel_handles.value.split("\n")
+    channel_handles: channel_handles.value.split("\n"),
+    passcode: edit_passcode.value.trim() || DEFUALT_SETTINGS.passcode
   }).then(() => {
     saved_notice.hidden = false
     setTimeout(() => saved_notice.hidden = true, 1500)
@@ -39,7 +48,7 @@ function saveOptions(e) {
 }
 
 document.addEventListener("DOMContentLoaded", restoreOptions)
-document.querySelector("form").addEventListener("submit", saveOptions)
+document.querySelector("#options_form").addEventListener("submit", saveOptions)
 document.addEventListener("keydown", e => {
   if(e.code === "KeyS" && e.ctrlKey) {
     saveOptions(e)
@@ -56,3 +65,26 @@ channel_ids.addEventListener("input", updateTextareaSize)
 channel_handles.addEventListener("input", updateTextareaSize)
 updateTextareaSize({ target: channel_ids })
 updateTextareaSize({ target: channel_handles })
+
+
+/* --- PASSCODE AREA --- */
+const enter_passcode = document.querySelector("#enter_passcode")
+const passcode_notice = document.querySelector("#passcode_notice")
+
+function revealOptions() {
+  document.querySelector("#passcode_area").hidden = true
+  document.querySelector("#options_area").hidden = false
+}
+
+function tryPasscode(e) {
+  e.preventDefault()
+
+  if(enter_passcode.value === edit_passcode.value) {
+    revealOptions()
+  } else {
+    passcode_notice.hidden = false
+    setTimeout(() => passcode_notice.hidden = true, 1500)
+  }
+}
+
+document.querySelector("#passcode_form").addEventListener("submit", tryPasscode)

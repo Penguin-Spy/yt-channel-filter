@@ -1,7 +1,7 @@
 const ALLOWED_PATHS = ["/feed/subscriptions", "/feed/history", "/feed/channels", "/results", "/playlist", "/account", "/account_notifications", "/account_playback", "/account_privacy"]
 
 // handles initial load and in-page navigation
-async function handleNavigation(url) {
+async function handleNavigation(url, allowBack) {
   // filter watching videos
   if(url.pathname === "/watch") {
     const video_id = url.searchParams.get("v")
@@ -57,8 +57,8 @@ async function handleNavigation(url) {
     // block everything else that's not an allowed path
   } else if(!ALLOWED_PATHS.includes(url.pathname)) {
     console.info(`[yt-channel-filter] path '${url.pathname}' is not allowed`)
-    // if there's a previous page to go back to, go there
-    if(history.length > 1) {
+    // if there's a previous (youtube) page to go back to, go there
+    if(allowBack && history.length > 1) {
       history.go(-1)
     } else { // else just reset to the subscriptions page
       history.replaceState(null, "", "/feed/subscriptions")
@@ -68,9 +68,9 @@ async function handleNavigation(url) {
 }
 
 // initial load
-handleNavigation(new URL(document.location))
+handleNavigation(new URL(document.location), false)
 
 // navigation event
 document.addEventListener("yt-navigate-start", e => {
-  handleNavigation(new URL(e.detail.url, document.location))
+  handleNavigation(new URL(e.detail.url, document.location), true)
 })

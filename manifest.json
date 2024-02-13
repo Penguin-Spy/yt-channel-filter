@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
   "name": "Youtube Channel Filter",
-  "version": "0.2",
+  "version": "0.3",
   "description": "Restrict the ability to watch youtube videos based on the channel.",
   "icons": {
+    "48": "icons/colored-icon.svg",
     "96": "icons/colored-icon.svg"
   },
   "permissions": [ "storage", "https://youtube.googleapis.com/youtube/v3/videos" ],
