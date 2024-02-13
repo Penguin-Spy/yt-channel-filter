@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "YouTube Channel Filter",
-  "version": "0.3",
+  "version": "0.4",
   "description": "Restricts the ability to watch youtube videos based on which channel uploaded it.",
   "icons": {
     "48": "icons/colored-icon.svg",

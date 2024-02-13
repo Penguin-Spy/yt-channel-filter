@@ -71,6 +71,8 @@ channel_ids.addEventListener("input", updateTextareaSize)
 channel_handles.addEventListener("input", updateTextareaSize)
 updateTextareaSize({ target: channel_ids })
 updateTextareaSize({ target: channel_handles })
+edit_passcode.addEventListener("focus", () => edit_passcode.type = "text")
+edit_passcode.addEventListener("blur", () => edit_passcode.type = "password")
 
 
 /* --- PASSCODE AREA --- */

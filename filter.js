@@ -6,6 +6,14 @@
 
 const ALLOWED_PATHS = ["/feed/subscriptions", "/feed/history", "/feed/channels", "/results", "/playlist", "/account", "/account_notifications", "/account_playback", "/account_privacy"]
 
+function block(params) {
+  const query = new URLSearchParams()
+  for(key in params) {
+    query.set(key, params[key])
+  }
+  document.location = browser.runtime.getURL("blocked.html") + '?' + query.toString()
+}
+
 // handles initial load and in-page navigation
 async function handleNavigation(url, allowBack) {
   // filter watching videos
@@ -31,7 +39,7 @@ async function handleNavigation(url, allowBack) {
 
     if(!settings.channel_ids.includes(channel_id)) {
       console.info(`[yt-channel-filter] channel id '${channel_id}' of video '${video_id}' is not in allowed list`)
-      document.location = browser.runtime.getURL("blocked.html") + `?c=${channel_id}&v=${video_id}&ct=${snippet.channelTitle}&vt=${snippet.title}`
+      block({c: channel_id, v: video_id, ct: snippet.channelTitle, vt: snippet.title})
     } else {
       console.info(`[yt-channel-filter] channel id '${channel_id}' of video '${video_id}' is allowed`)
     }
@@ -43,7 +51,7 @@ async function handleNavigation(url, allowBack) {
 
     if(!settings.channel_ids.includes(channel_id)) {
       console.info(`[yt-channel-filter] channel id '${channel_id}' is not in allowed list`)
-      document.location = browser.runtime.getURL("blocked.html") + '?c=' + channel_id
+      block({c: channel_id})
     } else {
       console.info(`[yt-channel-filter] channel id '${channel_id}' is allowed`)
     }
@@ -55,7 +63,7 @@ async function handleNavigation(url, allowBack) {
 
     if(!settings.channel_handles.includes(channel_handle)) {
       console.info(`[yt-channel-filter] channel handle '${channel_handle}' is not in allowed list`)
-      document.location = browser.runtime.getURL("blocked.html") + '?c=' + channel_handle
+      block({c: channel_handle})
     } else {
       console.info(`[yt-channel-filter] channel handle '${channel_handle}' is allowed`)
     }
